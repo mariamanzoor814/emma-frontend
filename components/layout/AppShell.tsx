@@ -1,0 +1,44 @@
+// frontend/components/layout/AppShell.tsx
+import { ReactNode } from "react";
+import type { MenuItem } from "@/lib/api/navigation";
+import { TopBar } from "./TopBar";
+import { Sidebar } from "./Sidebar";
+import { themeColors, themeSurfaces } from "@/styles/theme";
+import { GlobalFooter } from "./GlobalFooter"; // ⬅️ add this
+
+
+type AppShellProps = {
+  children: ReactNode;
+  topMenu: MenuItem[];
+  mainMenu: MenuItem[];
+  lang?: string;
+};
+
+export function AppShell({
+  children,
+  topMenu,
+  mainMenu,
+  lang = "en"
+}: AppShellProps) {
+  return (
+    <div
+      className="min-h-screen flex flex-col"
+      style={{
+        backgroundColor: themeSurfaces.appBackground,
+        color: themeColors.midnight
+      }}
+    >
+      <TopBar items={topMenu} lang={lang} />
+      <div className="flex flex-1">
+        <Sidebar items={mainMenu} topItems={topMenu} lang={lang} />
+        <main
+          className="flex-1 overflow-y-auto"
+          style={{ backgroundColor: themeSurfaces.appBackground }}
+        >
+          {children}
+        </main>
+      </div>
+      <GlobalFooter />
+    </div>
+  );
+}
