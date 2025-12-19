@@ -187,7 +187,7 @@ export function Sidebar({ items, topItems, lang = "en" }: SidebarProps) {
       {/* Top items section */}
       {topItems && topItems.length > 0 && (
         <div className="mb-4">
-          <div className="mb-2 text-[11px] font-semibold tracking-[0.14em] uppercase text-white/70">
+          <div className="mb-2 text-[11px] font-semibold tracking-[0.14em] uppercase text-slate-500">
             {t("sidebar.section.top", lang)}
           </div>
           <ul className="space-y-1">
@@ -198,8 +198,8 @@ export function Sidebar({ items, topItems, lang = "en" }: SidebarProps) {
                   className={clsx(
                     "flex items-center gap-3 rounded-lg px-3 py-2 text-sm",
                     pathname === item.path
-                      ? "bg-white/10 text-white"
-                      : "text-white/80 hover:bg-white/5 hover:text-white"
+                      ? "bg-slate-100 text-slate-900 font-medium"
+                      : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                   )}
                   onClick={() => setMobileOpen(false)}
                 >
@@ -214,7 +214,7 @@ export function Sidebar({ items, topItems, lang = "en" }: SidebarProps) {
       )}
 
       {/* Main section */}
-      <div className="mb-2 text-[11px] font-semibold tracking-[0.14em] uppercase text-white/70">
+      <div className="mb-2 text-[11px] font-semibold tracking-[0.14em] uppercase text-slate-500">
         {t("sidebar.section.main", lang)}
       </div>
       <ul className="space-y-1">
@@ -236,17 +236,17 @@ export function Sidebar({ items, topItems, lang = "en" }: SidebarProps) {
                     className={clsx(
                       "flex-1 flex items-center gap-3 rounded-lg px-3 py-2 text-sm w-full",
                       parentActive
-                        ? "bg-white/10 text-white"
-                        : "text-white/80 hover:bg-white/5 hover:text-white"
+                        ? "bg-slate-100 text-slate-900 font-medium"
+                        : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                     )}
                   >
-                    <Icon className="h-4 w-4 shrink-0 text-white/80" />
+                    <Icon className={clsx("h-4 w-4 shrink-0", parentActive ? "text-slate-900" : "text-slate-500")} />
                     <span className="truncate">
                       {t(item.title_key, lang)}
                     </span>
                     <ChevronDown
                       className={clsx(
-                        "ml-auto h-3 w-3 transition-transform",
+                        "ml-auto h-3 w-3 transition-transform text-slate-400",
                         groupOpen ? "rotate-180" : "rotate-0"
                       )}
                     />
@@ -258,12 +258,12 @@ export function Sidebar({ items, topItems, lang = "en" }: SidebarProps) {
                       className={clsx(
                         "flex-1 flex items-center gap-3 rounded-lg px-3 py-2 text-sm",
                         parentActive || directActive
-                          ? "bg-white/10 text-white"
-                          : "text-white/80 hover:bg-white/5 hover:text-white"
+                         ? "bg-slate-100 text-slate-900 font-medium"
+                         : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                       )}
                       onClick={() => setMobileOpen(false)}
                     >
-                      <Icon className="h-4 w-4 shrink-0 text-white/80" />
+                      <Icon className={clsx("h-4 w-4 shrink-0", (parentActive || directActive) ? "text-slate-900" : "text-slate-500")} />
                       <span className="truncate">
                         {t(item.title_key, lang)}
                       </span>
@@ -272,7 +272,7 @@ export function Sidebar({ items, topItems, lang = "en" }: SidebarProps) {
                       <button
                         type="button"
                         onClick={() => toggleGroup(item.id)}
-                        className="mr-2 flex h-6 w-6 items-center justify-center rounded-md text-white/70 hover:bg-white/10"
+                        className="mr-2 flex h-6 w-6 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-600"
                       >
                         <ChevronDown
                           className={clsx(
@@ -289,7 +289,7 @@ export function Sidebar({ items, topItems, lang = "en" }: SidebarProps) {
               {hasChildren && (
                 <div
                   className={clsx(
-                    "ml-6 border-l border-white/15 pl-3 space-y-1 overflow-hidden transition-all duration-200",
+                    "ml-6 border-l border-slate-200 pl-3 space-y-1 overflow-hidden transition-all duration-200",
                     groupOpen ? "max-h-96 py-1" : "max-h-0 py-0"
                   )}
                 >
@@ -302,15 +302,15 @@ export function Sidebar({ items, topItems, lang = "en" }: SidebarProps) {
                         className={clsx(
                           "flex items-center gap-2 rounded-md px-2 py-1 text-xs",
                           childActive
-                            ? "bg-white/10 text-white"
-                            : "text-white/75 hover:bg-white/5 hover:text-white"
+                            ? "bg-slate-100 text-slate-900 font-medium"
+                            : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
                         )}
                         onClick={() => setMobileOpen(false)}
                       >
                         <span
                           className={clsx(
                             "h-1.5 w-1.5 rounded-full shrink-0",
-                            childActive ? "bg-white" : "bg-white/60"
+                            childActive ? "bg-slate-900" : "bg-slate-300"
                           )}
                         />
                         <span className="truncate">
@@ -333,7 +333,7 @@ export function Sidebar({ items, topItems, lang = "en" }: SidebarProps) {
       {/* DESKTOP SIDEBAR (md and up) */}
       <aside
         className={clsx(
-          "hidden md:flex h-screen sticky top-0 flex-col transition-all duration-200",
+          "hidden md:flex h-full flex-col transition-all duration-200 z-30 shadow-sm",
           collapsed ? "w-16" : "w-64"
         )}
         style={{
@@ -388,7 +388,7 @@ export function Sidebar({ items, topItems, lang = "en" }: SidebarProps) {
 
         <nav
           className={clsx(
-            "flex-1 overflow-y-auto pb-4",
+            "flex-1 overflow-y-auto pb-20",
             collapsed ? "px-1 pt-2" : "px-2 pt-2"
           )}
         >
@@ -579,16 +579,16 @@ export function Sidebar({ items, topItems, lang = "en" }: SidebarProps) {
 
       {/* MOBILE FULLSCREEN SIDEBAR OVERLAY */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-40 flex flex-col bg-slate-950/95 backdrop-blur-md md:hidden">
+        <div className="fixed inset-0 z-40 flex flex-col bg-white md:hidden">
           {/* Header row */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
-            <span className="text-sm font-semibold tracking-[0.16em] uppercase text-white/80">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100">
+            <span className="text-sm font-semibold tracking-[0.16em] uppercase text-slate-800">
               Menu
             </span>
             <button
               type="button"
               onClick={handleToggleMobile}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/25 text-white hover:bg-white/10"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-500 hover:bg-slate-100"
               aria-label="Close menu"
             >
               <span className="relative block h-4 w-4">

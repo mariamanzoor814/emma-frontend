@@ -48,12 +48,12 @@ export type Membership = {
 };
 
 export async function getProfile(token: string) {
-  return apiFetch<Profile>("/api/auth/profile/", {}, token);
+  return apiFetch<Profile>("/accounts/profile/", {}, token);
 }
 
 export async function updateProfile(data: Partial<Profile>, token: string) {
   return apiFetch<Profile>(
-    "/api/auth/profile/",
+    "/accounts/profile/",
     {
       method: "PUT",
       body: JSON.stringify(data),

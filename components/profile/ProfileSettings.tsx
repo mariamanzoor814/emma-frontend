@@ -42,7 +42,7 @@ export function ProfileSettings() {
 
   const loadProfile = async () => {
     try {
-      const res = await authFetch("/api/auth/profile/");
+      const res = await authFetch("/accounts/profile/");
       if (!res.ok) throw new Error("Failed to load profile");
       const data = await res.json();
       setProfile({
@@ -96,7 +96,7 @@ export function ProfileSettings() {
       if (file) {
         form.append("avatar", file);
       }
-      const res = await authFetch("/api/auth/profile/", {
+      const res = await authFetch("/accounts/profile/", {
         method: "PATCH",
         body: form,
       });

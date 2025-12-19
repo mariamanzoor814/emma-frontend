@@ -673,7 +673,8 @@ if (error || !sessionData) {
   const isLive = (session.mode || "").toLowerCase() === "live";
 
   return (
-    <main className="p-6 space-y-6">
+    <main className="min-h-screen bg-white text-gray-900 p-6 space-y-6">
+
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold mb-1 flex items-center gap-2">
@@ -1095,7 +1096,8 @@ if (error || !sessionData) {
             }
           />
           <input
-            className="border rounded px-3 py-2 text-sm"
+            className="border border-gray-300 bg-white text-gray-900 placeholder-gray-400 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+
             placeholder="Option A"
             value={newQuestion.option_a}
             onChange={(e) =>
@@ -1103,7 +1105,8 @@ if (error || !sessionData) {
             }
           />
           <input
-            className="border rounded px-3 py-2 text-sm"
+            className="border border-gray-300 bg-white text-gray-900 placeholder-gray-400 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+
             placeholder="Option B"
             value={newQuestion.option_b}
             onChange={(e) =>
@@ -1111,7 +1114,8 @@ if (error || !sessionData) {
             }
           />
           <input
-            className="border rounded px-3 py-2 text-sm"
+            className="border border-gray-300 bg-white text-gray-900 placeholder-gray-400 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+
             placeholder="Option C (optional)"
             value={newQuestion.option_c}
             onChange={(e) =>
@@ -1119,7 +1123,8 @@ if (error || !sessionData) {
             }
           />
           <input
-            className="border rounded px-3 py-2 text-sm"
+            className="border border-gray-300 bg-white text-gray-900 placeholder-gray-400 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+
             placeholder="Option D (optional)"
             value={newQuestion.option_d}
             onChange={(e) =>
