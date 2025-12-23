@@ -3,6 +3,8 @@
 
 import { use, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { authFetch } from "@/lib/config";
+import { TOKEN_KEYS } from "@/lib/authConfig";
+import toast from "react-hot-toast"; // 👈 check placement
 
 
 type QuestionPayload = {
@@ -178,7 +180,7 @@ export default function PlayPage({
 
   useEffect(() => {
     if (!joined || sessionMode === "async") return;
-    const token = localStorage.getItem("emma_token");
+    const token = localStorage.getItem(TOKEN_KEYS.access);
     const wsUrl = token
       ? `ws://localhost:8000/ws/pq/sessions/${sessionCode}/?token=${encodeURIComponent(
           token
@@ -414,8 +416,11 @@ useEffect(() => {
         }
       }
 
+
+// ...
+
     } catch (err: any) {
-      alert(err.message || "Could not submit answer");
+      toast.error(err.message || "Could not submit answer");
     } finally {
       setAnswering(false);
     }

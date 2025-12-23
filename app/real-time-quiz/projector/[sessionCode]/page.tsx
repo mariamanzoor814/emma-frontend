@@ -3,6 +3,7 @@
 
 import { use, useEffect, useMemo, useState } from "react";
 import { authFetch } from "@/lib/config";
+import { TOKEN_KEYS } from "@/lib/authConfig";
 
 type QuestionPayload = {
   question_id: number;
@@ -168,7 +169,7 @@ export default function ProjectorPage({
 
     const token =
       typeof window !== "undefined"
-        ? window.localStorage.getItem("emma_token")
+        ? window.localStorage.getItem(TOKEN_KEYS.access)
         : null;
 
     const wsUrl = token

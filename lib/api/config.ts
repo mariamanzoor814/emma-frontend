@@ -2,8 +2,10 @@
 export const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
 
-const ACCESS_KEY = "emma_token";
-const REFRESH_KEY = "emma_refresh";
+//   const ACCESS_KEY = "emma_token";
+// const REFRESH_KEY = "emma_refresh";
+const ACCESS_KEY = "emma_access_token";
+const REFRESH_KEY = "emma_refresh_token";
 
 function getStoredTokens() {
   if (typeof window === "undefined") return { access: null, refresh: null };

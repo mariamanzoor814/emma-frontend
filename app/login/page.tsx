@@ -86,7 +86,7 @@ export default function LoginPage() {
     setSubmitting(true);
     try {
       await loginUser(form.email.trim().toLowerCase(), form.password);
-      router.push("/");
+      router.push("/dashboard");
       router.refresh();
     } catch (err: any) {
       setGlobalError(err.message || "Unable to log in.");

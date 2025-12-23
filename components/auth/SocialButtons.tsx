@@ -1,123 +1,97 @@
-// frontend/components/auth/SocialButtons.tsx
 "use client";
 
 import React from "react";
 import { AUTH_ENDPOINTS } from "@/lib/authConfig";
 
-type Provider = "google" | "instagram" | "twitter";
+type Provider = "google" | "facebook" | "instagram" | "twitter";
 
-const PROVIDER_LABEL: Record<Provider, string> = {
-  google: "Sign up with Google",
-  instagram: "Sign up with Instagram",
-  twitter: "Sign up with X",
-};
+const PROVIDERS: { key: Provider; label: string; icon: React.ReactNode }[] = [
+  {
+    key: "google",
+    label: "Continue with Google",
+    icon: (
+      <svg className="h-5 w-5 mr-3" viewBox="0 0 24 24">
+        <path
+          d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+          fill="#4285F4"
+        />
+        <path
+          d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+          fill="#34A853"
+        />
+        <path
+          d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+          fill="#FBBC05"
+        />
+        <path
+          d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+          fill="#EA4335"
+        />
+      </svg>
+    ),
+  },
+  {
+    key: "facebook",
+    label: "Continue with Facebook",
+    icon: (
+      <svg className="h-5 w-5 mr-3 text-[#1877F2]" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+      </svg>
+    ),
+  },
+  {
+    key: "instagram",
+    label: "Continue with Instagram",
+    icon: (
+      <svg className="h-5 w-5 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" className="text-[#E4405F] stroke-current" />
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" className="text-[#E4405F] stroke-current" />
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" className="text-[#E4405F] stroke-current" />
+        {/* Instagram uses a gradient usually, but text-color works for simple stroked icons or use fixed color e.g. E4405F */}
+      </svg>
+    ),
+  },
+  {
+    key: "twitter",
+    label: "Continue with X",
+    icon: (
+      <svg className="h-4 w-4 mr-3 text-black" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+      </svg>
+    ),
+  },
+];
 
-/* --------- brand icons --------- */
 
-function GoogleIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5">
-      <path
-        fill="#EA4335"
-        d="M11.99 10.2v3.72h5.18c-.2 1.2-.84 2.22-1.79 2.9l2.9 2.26c1.69-1.56 2.67-3.86 2.67-6.58 0-.63-.06-1.24-.18-1.82H11.99z"
-      />
-      <path
-        fill="#34A853"
-        d="M5.27 14.32l-.83.64-2.32 1.8C3.4 19.97 7.37 22 11.99 22c2.7 0 4.97-.9 6.63-2.42l-2.9-2.26c-.8.54-1.84.87-3.73.87-3.01 0-5.56-2-6.48-4.87z"
-      />
-      <path
-        fill="#4A90E2"
-        d="M2.12 6.76A9.96 9.96 0 0 0 1 12c0 1.83.49 3.55 1.44 5.04l2.83-2.72A5.94 5.94 0 0 1 4.97 12c0-.9.21-1.75.6-2.51z"
-      />
-      <path
-        fill="#FBBC05"
-        d="M11.99 4.04c1.86 0 3.16.8 3.89 1.46l2.84-2.77C16.95 1.44 14.69.5 11.99.5 7.37.5 3.4 2.53 2.12 6.76L5.57 9.5c.92-2.87 3.47-5.46 6.42-5.46z"
-      />
-    </svg>
-  );
-}
+import toast from "react-hot-toast";
 
-function InstagramIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5">
-      <rect
-        x="3"
-        y="3"
-        width="18"
-        height="18"
-        rx="5"
-        ry="5"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-      />
-      <circle
-        cx="12"
-        cy="12"
-        r="4"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-      />
-      <circle cx="17" cy="7" r="1.1" fill="currentColor" />
-    </svg>
-  );
-}
-
-function XIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5">
-      <path
-        d="M6 5l5.2 6.72L6 19h2.1l4.02-5.03L15.6 19H18l-5.3-6.94L17.6 5H15.5l-3.7 4.63L8.4 5H6z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
-
-const ICON_MAP: Record<Provider, React.ReactElement> = {
-  google: <GoogleIcon />,
-  instagram: <InstagramIcon />,
-  twitter: <XIcon />,
-};
-
-/* --------- component --------- */
+// ...
 
 export function SocialButtons() {
-  const handleSocial = (provider: Provider) => {
-    if (typeof window === "undefined") return;
-
-    const callbackUrl = window.location.origin + "/auth/callback";
-    const url = AUTH_ENDPOINTS.socialStart(provider, callbackUrl);
-    window.location.href = url;
+  const startSocialLogin = (provider: Provider) => {
+    if (provider === "google") {
+      window.location.href = AUTH_ENDPOINTS.socialStart(provider);
+    } else {
+      // Mock data / Coming Soon as requested since Client IDs are not configured
+      toast.success(`Coming Soon! ${provider.charAt(0).toUpperCase() + provider.slice(1)} login is not yet available.`, {
+        icon: '🚀',
+      });
+    }
   };
 
   return (
-    <div className="mt-6">
-      {/* divider */}
-      <div className="relative my-5">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t border-slate-200" />
-        </div>
-        <div className="relative flex justify-center text-xs">
-          <span className="bg-white px-3 text-slate-400">OR</span>
-        </div>
-      </div>
-
-      {/* buttons */}
-      <div className="space-y-3">
-        {(["google", "instagram", "twitter"] as Provider[]).map((p) => (
-          <button
-            key={p}
-            type="button"
-            onClick={() => handleSocial(p)}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-800 shadow-sm hover:border-slate-300 hover:shadow-md transition-all"
-          >
-            <span className="text-base">{ICON_MAP[p]}</span>
-            <span>{PROVIDER_LABEL[p]}</span>
-          </button>
-        ))}
-      </div>
+    <div className="mt-6 space-y-3">
+      {PROVIDERS.map(({ key, label, icon }) => (
+        <button
+          key={key}
+          type="button"
+          onClick={() => startSocialLogin(key)}
+          className="inline-flex w-full items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-violet-500/20 transition-all"
+        >
+          {icon}
+          <span>{label}</span>
+        </button>
+      ))}
     </div>
   );
 }

@@ -4,6 +4,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import { authFetch } from "@/lib/config";
+import { TOKEN_KEYS } from "@/lib/authConfig";
+import toast from "react-hot-toast";
 
 type RouteParams = { sessionCode: string };
 
@@ -125,9 +127,9 @@ export default function HostPage() {
   // Keep per-tab token copy if you ever want sessionStorage-based auth later
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const token = window.localStorage.getItem("emma_token");
+    const token = window.localStorage.getItem(TOKEN_KEYS.access);
     if (token) {
-      window.sessionStorage.setItem("emma_token", token);
+      window.sessionStorage.setItem(TOKEN_KEYS.access, token);
     }
   }, []);
 
@@ -260,7 +262,7 @@ useEffect(() => {
 
   const token =
     typeof window !== "undefined"
-      ? window.localStorage.getItem("emma_token")
+      ? window.localStorage.getItem(TOKEN_KEYS.access)
       : null;
 
   const wsUrl = token
@@ -337,7 +339,7 @@ useEffect(() => {
     const question = sessionData.quiz.questions.find((q) => q.id === id) || null;
 
     if (question && (!question.correct_option)) {
-      alert("Select a correct answer before publishing/broadcasting this question.");
+      toast.error("Select a correct answer before publishing/broadcasting this question.");
       return;
     }
 
@@ -366,7 +368,7 @@ useEffect(() => {
       }
     } catch (err) {
       console.error(err);
-      alert("Failed to broadcast question. Are you the host?");
+      toast.error("Failed to broadcast question. Are you the host?");
     }
   };
 
@@ -402,7 +404,7 @@ useEffect(() => {
           : prev
       );
     } catch (err: any) {
-      alert(err.message || "Could not set correct answer");
+      toast.error(err.message || "Could not set correct answer");
     }
   };
 
@@ -444,7 +446,7 @@ useEffect(() => {
           : prev
       );
     } catch (err: any) {
-      alert(err.message || "Could not save total time");
+      toast.error(err.message || "Could not save total time");
     } finally {
       setSavingTotalTime(false);
     }
@@ -482,7 +484,7 @@ useEffect(() => {
     if (!sessionData) return;
 
     if (!newQuestion.text.trim() || !newQuestion.option_a || !newQuestion.option_b) {
-      alert("Question text and options A/B are required.");
+      toast.error("Question text and options A/B are required.");
       return;
     }
 
@@ -520,7 +522,7 @@ useEffect(() => {
       );
       setNewQuestion(emptyQuestion);
     } catch (err: any) {
-      alert(err.message || "Could not add question");
+      toast.error(err.message || "Could not add question");
     } finally {
       setSavingQuestion(false);
     }
@@ -561,7 +563,7 @@ useEffect(() => {
         setSelectedQuestionId(null);
       }
     } catch (err: any) {
-      alert(err.message || "Could not delete question");
+      toast.error(err.message || "Could not delete question");
     }
   };
 
@@ -589,7 +591,7 @@ useEffect(() => {
           : prev
       );
     } catch (err: any) {
-      alert(err.message || "Could not update quiz visibility");
+      toast.error(err.message || "Could not update quiz visibility");
     } finally {
       setPublishing(false);
     }
@@ -614,7 +616,7 @@ useEffect(() => {
 
       window.location.href = "/real-time-quiz";
     } catch (err: any) {
-      alert(err.message || "Could not delete quiz");
+      toast.error(err.message || "Could not delete quiz");
     }
   };
 

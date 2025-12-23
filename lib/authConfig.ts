@@ -15,16 +15,14 @@ export const AUTH_ENDPOINTS = {
   resendReset: `${API_BASE_URL}/accounts/auth/resend-reset/`,
   passwordResetRequest: `${API_BASE_URL}/accounts/password-reset/`,
   passwordResetConfirm: `${API_BASE_URL}/accounts/password-reset/confirm/`,
-   passwordResetVerifyCode: `${API_BASE_URL}/accounts/password-reset/verify/`,
+  passwordResetVerifyCode: `${API_BASE_URL}/accounts/password-reset/verify/`,
   me: `${API_BASE_URL}/accounts/me/`,
-  
 
-  socialStart: (provider: string, callback: string) =>
-    `${API_BASE_URL}/api/auth/social/${provider}/?callback=${encodeURIComponent(
-      callback
-    )}`,
+  // 🔐 SOCIAL AUTH (GENERIC — WORKS FOR ALL PROVIDERS)
+  socialStart: (provider: string) =>
+    `${API_BASE_URL}/accounts/social-start/${provider}/`,
 
-  socialJwt: `${API_BASE_URL}/api/auth/social/jwt/`,
+  socialJwt: `${API_BASE_URL}/accounts/social/login/`,
 };
 
 export const TOKEN_KEYS = {

@@ -19,26 +19,33 @@ function getBlockValue(
 }
 
 export default async function ContentPage(props: PageProps) {
-  // 1️⃣ Await params if it is a Promise
   const params = await props.params;
-  const slugStr = Array.isArray(params.slug) ? params.slug.join("/") : params.slug;
+  const searchParams = await props.searchParams;
 
-  const lang = (props.searchParams?.lang ?? "en").toLowerCase();
+  const slugStr = Array.isArray(params?.slug)
+    ? params.slug.join("/")
+    : params?.slug ?? "untitled-page";
 
-  // 2️⃣ Fetch menus and page
+  const lang = (searchParams?.lang ?? "en").toLowerCase();
+
   const [topMenu, mainMenu, pageData] = await Promise.all([
     getMenu("top"),
     getMenu("main"),
     getPage(slugStr, lang).catch(() => null),
   ]);
 
-  const title = pageData
-    ? getBlockValue(pageData.blocks, "page.title")
-    : slugStr.replace(/-/g, " ");
+  // ✅ fallback if backend returns nothing or empty blocks
+  const page = pageData && pageData.blocks?.length
+    ? pageData
+    : {
+        blocks: [
+          { key: "page.title", value: { text: slugStr.replace(/-/g, " ") } },
+          { key: "page.body", value: { text: "This page is under construction or coming soon." } },
+        ],
+      };
 
-  const body = pageData
-    ? getBlockValue(pageData.blocks, "page.body")
-    : "This page is under construction or coming soon.";
+  const title = getBlockValue(page.blocks, "page.title");
+  const body = getBlockValue(page.blocks, "page.body");
 
   return (
     <AppShell topMenu={topMenu} mainMenu={mainMenu} lang={lang}>

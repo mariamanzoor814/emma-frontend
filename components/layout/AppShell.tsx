@@ -22,7 +22,7 @@ export function AppShell({
 }: AppShellProps) {
   return (
     <div
-      className="h-screen flex flex-col overflow-hidden"
+      className="min-h-screen flex flex-col"
       style={{
         backgroundColor: themeSurfaces.appBackground,
         color: themeColors.midnight
@@ -32,13 +32,13 @@ export function AppShell({
       <div className="flex flex-1 overflow-hidden">
         <Sidebar items={mainMenu} topItems={topMenu} lang={lang} />
         <main
-          className="flex-1 overflow-y-auto"
+          className="flex-1"
           style={{ backgroundColor: themeSurfaces.appBackground }}
         >
           {children}
-          <GlobalFooter />
         </main>
       </div>
+      <GlobalFooter /> {/* normal footer, pushed to bottom if content is short */}
     </div>
   );
 }

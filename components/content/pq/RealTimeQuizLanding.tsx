@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { authFetch } from "@/lib/config";
+import { TOKEN_KEYS } from "@/lib/authConfig";
 
 import { PublicLiveSessionsList } from "./PublicLiveSessionsList";
 import { MyQuizzesList } from "./MyQuizzesList";
@@ -36,7 +37,7 @@ export function RealTimeQuizLanding() {
   useEffect(() => {
     const token =
       typeof window !== "undefined"
-        ? window.localStorage.getItem("emma_token")
+        ? window.localStorage.getItem(TOKEN_KEYS.access)
         : null;
     setIsAuthenticated(Boolean(token));
     setCheckedAuth(true);
@@ -734,7 +735,7 @@ function ParticipantFlow({ onBack }: { onBack: () => void }) {
   useEffect(() => {
     if (status !== "joined" || !normalizedCode) return;
 
-    const token = localStorage.getItem("emma_token");
+    const token = localStorage.getItem(TOKEN_KEYS.access);
     const wsUrl = token
       ? `ws://localhost:8000/ws/pq/sessions/${normalizedCode}/?token=${encodeURIComponent(
           token

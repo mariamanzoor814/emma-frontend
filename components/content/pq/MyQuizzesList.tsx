@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { authFetch } from "@/lib/config";
+import toast from "react-hot-toast"; 
 
 type Quiz = {
   id: number;
@@ -173,8 +174,11 @@ export function MyQuizzesList() {
         ids.forEach((id) => next.delete(id));
         return next;
       });
+
+// ...
+
     } catch (err: any) {
-      alert(err.message || "Failed to delete selected quizzes");
+      toast.error(err.message || "Failed to delete selected quizzes");
     } finally {
       setDeleting(false);
     }

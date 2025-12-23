@@ -143,7 +143,7 @@ export function ProfileSettings() {
     );
     if (!ok) return;
     try {
-      const res = await authFetch("/api/auth/delete-account/", { method: "DELETE" });
+      const res = await authFetch("/accounts/delete-account/", { method: "DELETE" });
       if (!res.ok && res.status !== 204) {
         const data = await res.json().catch(async () => {
           const text = await res.text().catch(() => "");
