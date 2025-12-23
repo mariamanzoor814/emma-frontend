@@ -21,8 +21,8 @@ export type MallStorefront = {
 export async function getMallStorefront(): Promise<MallStorefront> {
   return {
     topLinks: [
-      { id: 1, label: "Customer Service", href: "#" },
-      { id: 2, label: "Track Order", href: "#" },
+      { id: "1", label: "Customer Service", href: "#" },
+      { id: "2", label: "Track Order", href: "#" },
     ],
     mainCategories: [
       { id: "furniture", label: "Furniture", href: "#" },
@@ -61,14 +61,15 @@ export async function getMallStorefront(): Promise<MallStorefront> {
         id: "featured",
         title: "Featured products",
         products: [
-          { id: "p1", name: "Modern Lounge Chair", price: "$249", imageUrl: "/assets/store/chair.png" },
-          { id: "p2", name: "Walnut Coffee Table", price: "$189", imageUrl: "/assets/store/table.png" },
+          { id: "p1", title: "Modern Lounge Chair", price: "$249", currency: "USD", imageUrl: "/assets/store/chair.png" },
+          { id: "p2", title: "Walnut Coffee Table", price: "$189", currency: "USD", imageUrl: "/assets/store/table.png" },
         ],
+
       },
     ],
     footerColumns: [
       {
-        id: 1,
+        id: "1",
         title: "Company",
         links: [
           { id: "about", label: "About", href: "#" },

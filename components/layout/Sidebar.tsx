@@ -332,16 +332,16 @@ export function Sidebar({ items, topItems, lang = "en" }: SidebarProps) {
     <>
       {/* DESKTOP SIDEBAR (md and up) */}
       <aside
-        className={clsx(
-          "hidden md:flex h-full flex-col transition-all duration-200 z-30 shadow-sm",
-          collapsed ? "w-16" : "w-64"
-        )}
-        style={{
-          backgroundColor: themeSurfaces.cardBackground,
-          borderRight: `1px solid ${themeSurfaces.border}`,
-          color: desktopTextColor
-        }}
-      >
+  className={clsx(
+    "hidden md:flex flex-col fixed top-0 left-0 h-screen transition-all duration-200 z-30 shadow-sm",
+    collapsed ? "w-16" : "w-64"
+  )}
+  style={{
+    backgroundColor: themeSurfaces.cardBackground,
+    borderRight: `1px solid ${themeSurfaces.border}`,
+    color: desktopTextColor
+  }}
+>
         {/* Toggle bar with hamburger / X icon (no text) */}
         <button
           type="button"

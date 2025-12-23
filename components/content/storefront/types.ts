@@ -28,9 +28,9 @@ export type Product = {
   id: string | number;
   title: string;
   imageUrl: string;
-  price: number | string;      // 👈 allow string
+  price: number | string;      
   currency: string;
-  oldPrice?: number | string;  // 👈 allow string
+  oldPrice?: number | string;  
   badgeText?: string;
 };
 

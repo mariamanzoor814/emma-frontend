@@ -8,7 +8,15 @@ import "./globals.css";
 import { Toaster } from "react-hot-toast"; // 👈 add this
 import { AuthProvider } from "@/components/auth/AuthProvider";  // 👈 add this
 
-// ... (existing imports)
+export const metadata: Metadata = {
+  title: "Emma Foundation", // 👈 app name
+  description: "Welcome to Emma Foundation",
+  icons: {
+    icon: "/favicon.ico", // 👈 your logo/icon file
+    shortcut: "/favicon.ico",
+  },
+};
+
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
