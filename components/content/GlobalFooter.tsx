@@ -1,3 +1,4 @@
+// frontend/components/content/GlobalFooter.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -55,7 +56,13 @@ export function GlobalFooter() {
     };
   }, []);
 
-  if (!blocks) return null;
+if (!blocks) {
+  return (
+    <footer className="border-t mt-auto">
+      <div className="h-32" /> {/* reserve space */}
+    </footer>
+  );
+}
 
   const brandName =
     getBlock(blocks, "footer.brandName") || "Emma Shopping Mall";
