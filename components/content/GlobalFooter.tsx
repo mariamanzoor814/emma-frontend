@@ -1,5 +1,7 @@
 // frontend/components/content/GlobalFooter.tsx
 
+import { useEffect, useState } from "react";
+import { authFetch } from "@/lib/config";
 import { SiteFooter } from "./SiteFooter";
 
 type Block = {
@@ -17,7 +19,7 @@ type FooterColumn = {
   links: { id: string; label: string; href: string }[];
 };
 
-function getBlock(blocks: Block[] = [], key: string, field = "text") {
+function getBlock(blocks: Block[] = [], key: string, field: string = "text") {
   const block = blocks.find((b) => b.key === key);
   if (!block?.value) return "";
   return block.value[field] ?? "";
@@ -26,43 +28,40 @@ function getBlock(blocks: Block[] = [], key: string, field = "text") {
 function getList(blocks: Block[] = [], key: string): any[] {
   const block = blocks.find((b) => b.key === key);
   const items = block?.value?.items;
-  return Array.isArray(items) ? items : [];
+  if (!Array.isArray(items)) return [];
+  return items;
 }
 
-/**
- * SERVER FETCH (IMPORTANT)
- * - direct backend call
- * - cookies automatically included
- * - no hydration mismatch
- */
-async function fetchFooterBlocks(): Promise<Block[]> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/content/pages/global-footer/`,
-    {
-      cache: "no-store", // OR "force-cache" if footer rarely changes
-      credentials: "include"
+export function GlobalFooter() {
+  const [blocks, setBlocks] = useState<Block[] | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadFooter() {
+      try {
+        const res = await authFetch("/api/content/pages/global-footer/");
+        if (!res.ok) return;
+        const data: FooterApiResponse = await res.json();
+        if (isMounted) setBlocks(data.blocks || []);
+      } catch (e) {
+        console.error("Error loading footer content", e);
+      }
     }
+
+    loadFooter();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+if (!blocks) {
+  return (
+    <footer className="border-t mt-auto">
+      <div className="h-32" /> {/* reserve space */}
+    </footer>
   );
-
-  if (!res.ok) {
-    console.error("Failed to load footer");
-    return [];
-  }
-
-  const data: FooterApiResponse = await res.json();
-  return data.blocks || [];
 }
-
-export async function GlobalFooter() {
-  const blocks = await fetchFooterBlocks();
-
-  if (!blocks.length) {
-    return (
-      <footer className="border-t">
-        <div className="h-32" />
-      </footer>
-    );
-  }
 
   const brandName =
     getBlock(blocks, "footer.brandName") || "Emma Shopping Mall";
@@ -80,7 +79,7 @@ export async function GlobalFooter() {
   const logoAlt = logoBlock?.value?.alt || "Emma logo";
 
   const rawColumns = getList(blocks, "footer.columns");
-  const columns: FooterColumn[] = rawColumns;
+  const columns: FooterColumn[] = Array.isArray(rawColumns) ? rawColumns : [];
 
   return (
     <SiteFooter
