@@ -29,8 +29,9 @@ export function AppShell({
       }}
     >
       <TopBar items={topMenu} lang={lang} />
-      <div className="flex flex-1 ">
+      
         <Sidebar items={mainMenu} topItems={topMenu} lang={lang} />
+        <div className="flex flex-1 ">
         <main
           className="flex-1"
           style={{ backgroundColor: themeSurfaces.appBackground }}
