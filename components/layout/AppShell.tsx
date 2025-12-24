@@ -37,8 +37,8 @@ export function AppShell({
         >
           {children}
         </main>
-        <GlobalFooter /> {/* normal footer, pushed to bottom if content is short */}
       </div>
+      <GlobalFooter /> {/* normal footer, pushed to bottom if content is short */}
     </div>
   );
 }
