@@ -29,7 +29,7 @@ export default async function FeedingSoulPage({
   const language = (lang ?? "en").toLowerCase();
 
   const API_BASE_URL =
-    process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000";
+    process.env.NEXT_PUBLIC_API_BASE_URL || "http://51.20.194.196:8000";
 
   const [topMenu, mainMenu, page] = await Promise.all([
     getMenu("top"),

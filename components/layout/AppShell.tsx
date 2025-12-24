@@ -29,7 +29,7 @@ export function AppShell({
       }}
     >
       <TopBar items={topMenu} lang={lang} />
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 ">
         <Sidebar items={mainMenu} topItems={topMenu} lang={lang} />
         <main
           className="flex-1"
