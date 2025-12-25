@@ -333,10 +333,12 @@ export function Sidebar({ items, topItems, lang = "en" }: SidebarProps) {
       {/* DESKTOP SIDEBAR (md and up) */}
       <aside
   className={clsx(
-    "hidden md:flex flex-col fixed top-0 left-0 h-screen transition-all duration-200 z-30 shadow-sm",
+    "hidden md:flex flex-col fixed left-0 z-30 transition-all duration-200 shadow-sm",
     collapsed ? "w-16" : "w-64"
   )}
   style={{
+    top: "84px", // TOPBAR HEIGHT
+    height: "calc(100vh - 84px)", // 🔥 THIS IS THE KEY
     backgroundColor: themeSurfaces.cardBackground,
     borderRight: `1px solid ${themeSurfaces.border}`,
     color: desktopTextColor

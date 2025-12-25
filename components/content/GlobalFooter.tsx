@@ -1,8 +1,6 @@
 // frontend/components/content/GlobalFooter.tsx
-
-import { useEffect, useState } from "react";
-import { authFetch } from "@/lib/config";
 import { SiteFooter } from "./SiteFooter";
+import { authFetch } from "@/lib/config";
 
 type Block = {
   key: string;
@@ -28,40 +26,22 @@ function getBlock(blocks: Block[] = [], key: string, field: string = "text") {
 function getList(blocks: Block[] = [], key: string): any[] {
   const block = blocks.find((b) => b.key === key);
   const items = block?.value?.items;
-  if (!Array.isArray(items)) return [];
-  return items;
+  return Array.isArray(items) ? items : [];
 }
 
-export function GlobalFooter() {
-  const [blocks, setBlocks] = useState<Block[] | null>(null);
+export async function GlobalFooter() {
+  let blocks: Block[] = [];
 
-  useEffect(() => {
-    let isMounted = true;
+  try {
+    const res = await authFetch("/api/content/pages/global-footer/");
 
-    async function loadFooter() {
-      try {
-        const res = await authFetch("/api/content/pages/global-footer/");
-        if (!res.ok) return;
-        const data: FooterApiResponse = await res.json();
-        if (isMounted) setBlocks(data.blocks || []);
-      } catch (e) {
-        console.error("Error loading footer content", e);
-      }
+    if (res.ok) {
+      const data: FooterApiResponse = await res.json();
+      blocks = data.blocks || [];
     }
-
-    loadFooter();
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-if (!blocks) {
-  return (
-    <footer className="border-t mt-auto">
-      <div className="h-32" /> {/* reserve space */}
-    </footer>
-  );
-}
+  } catch (err) {
+    console.error("Error loading footer content", err);
+  }
 
   const brandName =
     getBlock(blocks, "footer.brandName") || "Emma Shopping Mall";

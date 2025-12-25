@@ -32,11 +32,15 @@ export function AppShell({
       <div className="flex flex-1 ">
         <Sidebar items={mainMenu} topItems={topMenu} lang={lang} />
         <main
-          className="flex-1"
-          style={{ backgroundColor: themeSurfaces.appBackground }}
-        >
-          {children}
-        </main>
+  className="
+    flex-1
+    
+    md:ml-64
+  "
+  style={{ backgroundColor: themeSurfaces.appBackground }}
+>
+  {children}
+</main>
       </div>
       <GlobalFooter /> {/* normal footer, pushed to bottom if content is short */}
     </div>
